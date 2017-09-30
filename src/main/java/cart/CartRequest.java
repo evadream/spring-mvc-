@@ -11,6 +11,7 @@ package cart;
  * desc：
  */
 public class CartRequest<T> {
+
 }
 
     
