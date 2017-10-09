@@ -9,6 +9,7 @@ import cart.ICartClinet;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.util.StringUtils;
 
 /**
  * CartClient
@@ -21,12 +22,17 @@ public class CartClient implements ICartClinet, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     public <T extends CartResponse> T execute(CartRequest<T> cartRequest) {
+        String beanName = getBeanName(cartRequest.getClass());
         return null;
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
+    }
+
+    private String getBeanName(Class z) {
+        return StringUtils.replace(z.getSimpleName(), "", "");
     }
 }
 
