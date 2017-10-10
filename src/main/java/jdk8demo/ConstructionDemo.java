@@ -18,29 +18,30 @@ import java.util.function.Supplier;
  * @date 2017/10/9
  * desc：
  */
-public class Demo {
+public class ConstructionDemo {
     private String name;
     private String id;
     private int code;
 
 
-    public Demo() {
+    public ConstructionDemo() {
     }
 
-    public Demo(String name) {
+    public ConstructionDemo(String name) {
         this.name = name;
     }
 
-    public Demo(String name, String id) {
+    public ConstructionDemo(String name, String id) {
         this.name = name;
         this.id = id;
     }
 
-    public Demo(String name, String id, int code) {
+    public ConstructionDemo(String name, String id, int code) {
         this.name = name;
         this.id = id;
         this.code = code;
     }
+
 
     public void test() {
         Function<String, Integer> stringToInteger = Integer::parseInt;
@@ -55,17 +56,17 @@ public class Demo {
     }
 
     public static void main(String[] args) {
-        Supplier<Demo> demoSupplier = Demo::new;
+        Supplier<ConstructionDemo> demoSupplier = ConstructionDemo::new;
         demoSupplier.get().test();
 
-        Function<String, Demo> stringDemoFunction = Demo::new;
-        Demo demo = stringDemoFunction.apply("momo");
+        Function<String, ConstructionDemo> stringDemoFunction = ConstructionDemo::new;
+        ConstructionDemo demo = stringDemoFunction.apply("momo");
         demo.test();
 
-        BiFunction<String, String, Demo> demoBiFunction = Demo::new;
+        BiFunction<String, String, ConstructionDemo> demoBiFunction = ConstructionDemo::new;
         demoBiFunction.apply("woyo", "2").test();
 
-        TriFunction<String, String, Integer, Demo> demoTri = Demo::new;
+        TriFunction<String, String, Integer, ConstructionDemo> demoTri = ConstructionDemo::new;
         demoTri.apply("huanbgtao","3",2).test();
     }
 
