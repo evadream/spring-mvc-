@@ -6,6 +6,7 @@ package springboot.dao;
 import com.jolbox.bonecp.BoneCPDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
@@ -16,6 +17,7 @@ import javax.sql.DataSource;
  * @date 2017/10/9
  * desc：配置数据源
  */
+@Configuration
 public class JdbcSource {
     @Value("${jdbc.url}")
     private String jdbcUrl;

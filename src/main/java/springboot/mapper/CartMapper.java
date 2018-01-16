@@ -1,17 +1,16 @@
 /*
  * Copyright (C) 2009-2017 Hangzhou 2Dfire Technology Co., Ltd.All rights reserved
  */
-package cart;
+package springboot.mapper;
 
 /**
- * CartRequest
+ * CartMapper
  *
  * @author huangtao
- * @date 2017/9/29
+ * @date 2017/10/10
  * desc：
  */
-public class CartRequest<T> {
-
+public class CartMapper {
 }
 
     

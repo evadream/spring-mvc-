@@ -4,8 +4,10 @@
 package springboot.dao;
 
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -19,6 +21,8 @@ import javax.sql.DataSource;
  * @date 2017/10/9
  * desc：
  */
+@Configuration
+@AutoConfigureAfter(JdbcSource.class)
 public class MyBatisConfig {
     @Bean
     @ConditionalOnMissingBean //当容器里没有指定的Bean的情况下创建该对象
@@ -31,7 +35,7 @@ public class MyBatisConfig {
         Resource mybatisConfigXml = resolver.getResource("classpath:mybatis/mybatis-config.xml");
         sqlSessionFactoryBean.setConfigLocation(mybatisConfigXml);
         // 设置别名包
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.taotao.cart.pojo");
+        sqlSessionFactoryBean.setTypeAliasesPackage("springboot.pojo");
         return sqlSessionFactoryBean;
     }
 
