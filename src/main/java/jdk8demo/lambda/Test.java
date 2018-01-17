@@ -7,16 +7,16 @@ import com.sun.deploy.util.ArrayUtil;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 import com.sun.tools.javac.util.ArrayUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -77,13 +77,73 @@ public class Test {
 
         list.add(testBeansList2);
 
-        Set<Integer> sets = list.stream().filter(s -> s.getId() > 2).map(s -> s.getId()).sorted().collect(Collectors.toSet());///???
+        Set<Integer> sets = list.stream().filter(s -> s.getId() > 2).map(s -> s.getId()).sorted().collect(Collectors.toSet());
         System.out.println(sets.size());
 
         List<Integer> integerList = list.stream().filter(l -> l.getId() > 2).map(l -> l.getId()).collect(Collectors.toList());
         int total = integerList.stream().reduce(0, (a, b) -> a + b);
         System.out.println(total);
+        Optional<Integer> max = testBeans2.stream().map(TestBean::getWeight).reduce(Integer::max);
+        System.out.println(max.get());
+
+        Optional<Integer> min = testBeans2.stream().map(TestBean::getWeight).reduce(Integer::min);
+        System.out.println(min.get());
+        Optional<TestBean> minBean = testBeans2.stream().min(comparing(TestBean::getWeight));
+        System.out.println(minBean.get().getName());
+
+        //勾股数 赞
+        Stream<double[]> pythagoreanTriples2 = IntStream.rangeClosed(1, 100)
+                .boxed()
+                .flatMap(a ->
+                        IntStream.rangeClosed(a, 100)
+                                .mapToObj(b -> new double[]{a, b, Math.sqrt(a * a + b * b)})
+                                .filter(t -> t[2] % 1 == 0));
+        pythagoreanTriples2.forEach(j -> System.out.println(j[0] + "  " + j[1] + "  " + j[2]));
+
+        //斐波纳契元组序列
+        Stream.iterate(new int[]{0, 1},
+                t -> new int[]{t[1], t[0] + t[1]})
+                .limit(20)
+                .forEach(t -> System.out.println("(" + t[0] + "," + t[1] + ")"));
+
+
+        Stream.generate(Math::random)
+                .limit(5)
+                .forEach(System.out::println);
+
+
+        //todo 为啥是错误的？？？
+        IntSupplier fib = new IntSupplier() {
+            private int previous = 0;
+            private int current = 1;
+
+            @Override
+            public int getAsInt() {
+                int oldPrevious = this.previous;
+                int nextValue = this.previous + this.current;
+                this.previous = this.current;
+                this.current = nextValue;
+                return oldPrevious;
+            }
+        };
+        IntStream.generate(fib).limit(10).forEach(System.out::println);
+
+
+        //todo 为啥是错误的？？？
+        Stream<Integer> streamArry = Arrays.asList(1, 2, 3, 4, 5, 6).stream();
+        List<Integer> numbers = streamArry.reduce(
+                new ArrayList<Integer>(),
+                (List<Integer> l, Integer e) -> {
+                    l.add(e);
+                    return l;
+                },
+                (List<Integer> l1, List<Integer> l2) -> {
+                    l1.addAll(l2);
+                    return l1;
+                });
+        System.out.println(numbers);
+
+
     }
 }
 
-    
